@@ -1,4 +1,4 @@
-## BareNote API
+## BareNote API [![Build Status](https://travis-ci.org/marszczybrew/barenote-api.svg?branch=master)](https://travis-ci.org/marszczybrew/barenote-api)
 
 #### Tests
 All tests are stored in `/test`, they use [PyRestTest](https://github.com/svanoort/pyresttest/) library. So far, they are defined for the following endpoints:
