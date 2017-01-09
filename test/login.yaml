@@ -1,0 +1,16 @@
+---
+- config:
+    - testset: "Login to dummy account"
+    - timeout: 10
+- test:
+    - name: "Login"
+    - url: "/api/login"
+    - method: "POST"
+    - body: '{"login": "dummy", "password": "account"}'
+    - headers: {"Content-Type": "application/json"}
+    - validators:
+        - compare: {header: content-type, comparator: contains, expected: 'json'}
+        - compare: {raw_body: "", comparator: contains, expected: 'token'}
+    - expected_status: [200]
+    - extract_binds:
+        - 'token': {'jsonpath_mini':'token'}
