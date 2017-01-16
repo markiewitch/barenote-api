@@ -1,0 +1,107 @@
+---
+- config:
+    - testset: "Test the /tag endpoint"
+    - timeout: 60
+
+# Extracted from login.yaml
+- test:
+    - name: "Login"
+    - url: "/api/login"
+    - method: "POST"
+    - body: '{"login": "dummy", "password": "account"}'
+    - headers: {"Content-Type": "application/json"}
+    - extract_binds:
+        - 'token': {'jsonpath_mini':'token'}
+
+- test:
+    - name: "Obtain a list of tags"
+    - url: "/api/tag"
+    - method: "GET"
+    - headers: {
+        template: {Authorization: "Bearer $token"}
+    }
+    - expected_status: [200]
+
+- test:
+    - name: "Create a new tag"
+    - url: "/api/tag"
+    - method: "POST"
+    - headers: {
+        template: {Authorization: "Bearer $token"}
+    }
+    - body: '{"name": "Ciekawostki"}'
+    - extract_binds:
+        - 'tag_id': {'jsonpath_mini':'id'}
+    - expected_status: [200]
+
+- test:
+    - name: "Obtain a list of notes with a specific tag"
+    - url: {"template": "/api/tag/$tag_id"}
+    - method: "GET"
+    - headers: {
+        template: {Authorization: "Bearer $token"}
+    }
+    - expected_status: [200]
+
+# Dummy note for test purposes
+- test:
+    - name: "Create new note"
+    - url: "/api/note"
+    - method: "POST"
+    - headers: {
+        template: {Authorization: "Bearer $token"}
+      }
+    - body: '{"title":"My newly created note", "body":"This service is awesome!"}'
+    - expected_status: [201]
+    - extract_binds:
+        - 'note_id': {'jsonpath_mini':'id'}
+
+- test:
+    - name: "Tag a note"
+    - url: {template: "/api/tag/$tag_id"}
+    - method: "PUT"
+    - headers: {
+        template: {Authorization: "Bearer $token"}
+    }
+    - body: {template: '{"note_id": $note_id}'}
+    - expected_status: [200]
+
+- test:
+    - name: "Untag a note"
+    - url: {template: "/api/tag/$tag_id"}
+    - method: "DELETE"
+    - headers: {
+        template: {Authorization: "Bearer $token"}
+    }
+    - body: {template: '{"note_id": $note_id}'}
+    - expected_status: [204]
+
+- test:
+    - name: "Cannot untag not tagged note"
+    - url: {template: "/api/tag/$tag_id"}
+    - method: "DELETE"
+    - headers: {
+        template: {Authorization: "Bearer $token"}
+    }
+    - body: {template: '{"note_id": $note_id}'}
+    - expected_status: [404]
+
+# Remove the dummy note
+- test:
+    - name: "Remove the dummy note"
+    - url: {"template": "/api/note/$note_id"}
+    - method: "DELETE"
+    - headers: {
+        template: {Authorization: "Bearer $token"}
+      }
+    - expected_status: [204]
+
+- test:
+    - name: "Cannot tag nonexistent note"
+    - url: {template: "/api/tag/$tag_id"}
+    - method: "PUT"
+    - headers: {
+        template: {Authorization: "Bearer $token"}
+      }
+    - body: {template: '{"note_id": $note_id}'}
+    - expected_status: [404]
