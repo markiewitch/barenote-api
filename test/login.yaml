@@ -2,6 +2,14 @@
 - config:
     - testset: "Login to dummy account"
     - timeout: 10
+
+- test:
+    - name: "Register"
+    - url: "/api/register"
+    - method: "POST"
+    - body: '{"username": "dummy", "password":"account", "email": "dummy@mail.com"}'
+    - expected_status: [201]
+
 - test:
     - name: "Login"
     - url: "/api/login"

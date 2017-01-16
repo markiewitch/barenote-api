@@ -13,7 +13,7 @@ class Base(db.Model):
 class User(Base):
     __tablename__ = 'auth_user'
 
-    username = db.Column(db.String(128), nullable=False)
+    username = db.Column(db.String(128), nullable=False, unique=True)
 
     email = db.Column(db.String(128), nullable=False, unique=True)
     password = db.Column(db.String(192), nullable=False)
