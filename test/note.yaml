@@ -20,6 +20,7 @@
     - headers: {
         template: {Authorization: "Bearer $token"}
       }
+    - expected_status: [200]
 
 - test:
     - name: "Create new note"

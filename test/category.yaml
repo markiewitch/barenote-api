@@ -1,0 +1,97 @@
+---
+- config:
+    - testset: "Test the /category endpoint"
+    - timeout: 60
+
+# Extracted from login.yaml
+- test:
+    - name: "Login"
+    - url: "/api/login"
+    - method: "POST"
+    - body: '{"login": "dummy", "password": "account"}'
+    - headers: {"Content-Type": "application/json"}
+    - extract_binds:
+        - 'token': {'jsonpath_mini':'token'}
+
+- test:
+    - name: "Obtain list of user categories"
+    - url: "/api/category"
+    - method: "GET"
+    - headers: {
+        template: {Authorization: "Bearer $token"}
+    }
+    - expected_status: [200]
+
+- test:
+    - name: "Create new category"
+    - url: "/api/category"
+    - method: "POST"
+    - headers: {
+        template: {Authorization: "Bearer $token"}
+    }
+    - expected_status: [201]
+    - extract_binds:
+        - 'category_id': {'jsonpath_mini': 'id'}
+
+# Dummy note for test purposes
+- test:
+    - name: "Create new note"
+    - url: "/api/note"
+    - method: "POST"
+    - headers: {
+        template: {Authorization: "Bearer $token"}
+      }
+    - body: '{"title":"My newly created note", "body":"This service is awesome!"}'
+    - expected_status: [201]
+    - extract_binds:
+        - 'note_id': {'jsonpath_mini':'id'}
+
+- test:
+    - name: "Assign a note to category"
+    - url: {"template": "/api/category/$category_id/note"}
+    - method: "PUT"
+    - headers: {
+        template: {Authorization: "Bearer $token"}
+      }
+    - body: {template: '{"note_id": $note_id}'}
+    - expected_status: [200]
+
+- test:
+    - name: "Unassign a note from a category"
+    - url: {"template": "/api/category/$category_id/note"}
+    - method: "DELETE"
+    - headers: {
+        template: {Authorization: "Bearer $token"}
+      }
+    - body: {template: '{"note_id": $note_id}'}
+    - expected_status: [204]
+
+- test:
+    - name: "Cannot unassign not assigned note from a category"
+    - url: {"template": "/api/category/$category_id/note"}
+    - method: "DELETE"
+    - headers: {
+        template: {Authorization: "Bearer $token"}
+      }
+    - body: {template: '{"note_id": $note_id}'}
+    - expected_status: [404]
+
+# Remove the dummy note
+- test:
+    - name: "Remove the dummy note"
+    - url: {"template": "/api/note/$note_id"}
+    - method: "DELETE"
+    - headers: {
+        template: {Authorization: "Bearer $token"}
+      }
+    - expected_status: [204]
+
+- test:
+    - name: "Cannot assign a nonexistent note"
+    - url: {"template": "/api/category/$category_id/note"}
+    - method: "PUT"
+    - headers: {
+        template: {Authorization: "Bearer $token"}
+      }
+    - body: {template: '{"note_id": $note_id}'}
+    - expected_status: [400]
