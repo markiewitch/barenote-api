@@ -7,7 +7,7 @@ install:
 
 before_script:
     - make start &
-    - sleep 15
+    - sleep 5
 
 script:
     - make pyresttest
