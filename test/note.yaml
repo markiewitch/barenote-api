@@ -8,10 +8,10 @@
     - name: "Login"
     - url: "/api/login"
     - method: "POST"
-    - body: '{"login": "dummy", "password": "account"}'
+    - body: '{"username": "dummy", "password": "account"}'
     - headers: {"Content-Type": "application/json"}
     - extract_binds:
-        - 'token': {'jsonpath_mini':'token'}
+        - 'token': {'jsonpath_mini':'access_token'}
 
 - test:
     - name: "Retrieve list of all notes"

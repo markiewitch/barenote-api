@@ -1,0 +1,6 @@
+---
+- config:
+    - testset: "Aggregates all tests"
+    - timeout: 60
+
+- import: test/login.yaml
