@@ -18,6 +18,8 @@ class User(Base):
     email = db.Column(db.String(128), nullable=False, unique=True)
     password = db.Column(db.String(192), nullable=False)
 
+    categories = db.relationship('NoteCategory', backref='user', lazy='dynamic')
+
     def __init__(self, username, email, password):
         self.username = username
         self.email = email
@@ -25,3 +27,10 @@ class User(Base):
 
     def __repr__(self):
         return '<User %r>' % (self.username)
+
+    def serialize(self):
+        return dict(
+            id=self.id,
+            username=self.username,
+            email=self.email
+        )

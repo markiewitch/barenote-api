@@ -18,5 +18,8 @@ def not_found(error):
 from mod_auth.controller import mod_auth
 app.register_blueprint(mod_auth)
 
+from mod_note import note_module
+app.register_blueprint(note_module)
+
 # Create the database
 db.create_all()
