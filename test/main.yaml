@@ -4,3 +4,4 @@
     - timeout: 60
 
 - import: test/login.yaml
+- import: test/note.yaml

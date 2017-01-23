@@ -20,6 +20,9 @@ class Note(Base):
     user_id = db.Column(db.Integer, db.ForeignKey('auth_user.id'))
     user = db.relationship('User', backref=db.backref('auth_users', lazy='dynamic'))
 
+    def is_owned_by(self, user_id):
+        return user_id == self.user_id
+
     def __init__(self, title, content, category_id, user_id):
         self.title = title
         self.content = content
