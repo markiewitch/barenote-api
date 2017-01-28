@@ -31,6 +31,7 @@ class Note(Base):
 
     def serialize(self):
         return dict(
+            id=self.id,
             title=self.title,
             content=self.content,
             category_id=self.category_id,

@@ -32,11 +32,11 @@
     - body: '{"title":"My newly created note", "body":"This service is awesome!", "category": "Default", "tags":[]}'
     - expected_status: [201]
     - extract_binds:
-        - 'note_id': {'jsonpath_mini':'id'}
+        - 'noteId': {'jsonpath_mini':'id'}
 
 - test:
     - name: "Retrieve single note"
-    - url: {"template": "/api/note/$note_id"}
+    - url: {"template": "/api/note/$noteId"}
     - method: "GET"
     - headers: {
         template: {Authorization: "Bearer $token"}
@@ -44,11 +44,11 @@
     - expected_status: [200]
     - validators:
         - compare: {header: content-type, comparator: contains, expected: 'json'}
-        - compare: {raw_body: "", comparator: contains, expected: 'body'}
+        - compare: {raw_body: "", comparator: contains, expected: 'awesome'}
 
 - test:
     - name: "Update note content"
-    - url: {"template": "/api/note/$note_id"}
+    - url: {"template": "/api/note/$noteId"}
     - method: "PUT"
     - headers: {
         template: {Authorization: "Bearer $token"}
@@ -73,7 +73,7 @@
 
 - test:
     - name: "Delete a note"
-    - url: {"template": "/api/note/$note_id"}
+    - url: {"template": "/api/note/$noteId"}
     - method: "DELETE"
     - headers: {
         template: {Authorization: "Bearer $token"}
@@ -82,7 +82,7 @@
 
 - test:
     - name: "Don't fetch a nonexistent note"
-    - url: {"template": "/api/note/$note_id"}
+    - url: {"template": "/api/note/$noteId"}
     - method: "GET"
     - headers: {
         template: {Authorization: "Bearer $token"}
