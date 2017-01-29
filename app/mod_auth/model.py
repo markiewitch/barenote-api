@@ -18,8 +18,6 @@ class User(Base):
     email = db.Column(db.String(128), nullable=False, unique=True)
     password = db.Column(db.String(192), nullable=False)
 
-    categories = db.relationship('NoteCategory', backref='user', lazy='dynamic')
-
     def __init__(self, username, email, password):
         self.username = username
         self.email = email

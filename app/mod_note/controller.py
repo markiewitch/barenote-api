@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify
 from flask import request
 from app import db
-from app.mod_note.model import Note
+from app.mod_note import Note
 from flask_jwt import jwt_required, current_identity
 
 mod_note = Blueprint('note', __name__, url_prefix='/api')
