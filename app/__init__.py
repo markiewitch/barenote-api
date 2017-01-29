@@ -14,6 +14,16 @@ def not_found(error):
     return jsonify(error="Not found"), 404
 
 
+@app.errorhandler(405)
+def not_allowed(error):
+    return jsonify(error="Method not allowed"), 405
+
+
+@app.errorhandler(500)
+def internal(error):
+    return jsonify(error="Internal error"), 500
+
+
 # Register submodules
 from mod_auth.controller import mod_auth
 app.register_blueprint(mod_auth)
