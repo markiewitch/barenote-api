@@ -21,5 +21,8 @@ app.register_blueprint(mod_auth)
 from mod_note import note_module
 app.register_blueprint(note_module)
 
+from mod_category import mod_category
+app.register_blueprint(mod_category)
+
 # Create the database
 db.create_all()
