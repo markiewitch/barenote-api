@@ -5,3 +5,4 @@
 
 - import: test/login.yaml
 - import: test/note.yaml
+- import: test/category.yaml
