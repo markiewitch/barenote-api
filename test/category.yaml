@@ -54,7 +54,7 @@
     - headers: {
         template: {Authorization: "Bearer $token"}
       }
-    - body: {template: '{"noteId": $noteId}'}
+    - body: {template: '{"note_id": $noteId}'}
     - expected_status: [200]
 
 - test:
@@ -64,7 +64,7 @@
     - headers: {
         template: {Authorization: "Bearer $token"}
       }
-    - body: {template: '{"noteId": $noteId}'}
+    - body: {template: '{"note_id": $noteId}'}
     - expected_status: [204]
 
 - test:
@@ -74,8 +74,8 @@
     - headers: {
         template: {Authorization: "Bearer $token"}
       }
-    - body: {template: '{"noteId": $noteId}'}
-    - expected_status: [404]
+    - body: {template: '{"note_id": $noteId}'}
+    - expected_status: [400]
 
 # Remove the dummy note
 - test:
@@ -94,5 +94,5 @@
     - headers: {
         template: {Authorization: "Bearer $token"}
       }
-    - body: {template: '{"noteId": $noteId}'}
+    - body: {template: '{"note_id": $noteId}'}
     - expected_status: [400]
