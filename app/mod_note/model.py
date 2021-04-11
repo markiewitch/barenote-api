@@ -1,13 +1,5 @@
 from app import db
-
-
-class Base(db.Model):
-    __abstract__ = True
-
-    id = db.Column(db.Integer, primary_key=True)
-    date_created = db.Column(db.DateTime, default=db.func.current_timestamp())
-    date_modified = db.Column(db.DateTime, default=db.func.current_timestamp(),
-                              onupdate=db.func.current_timestamp())
+from app.mod_auth import Base
 
 
 class Note(Base):
@@ -40,17 +32,3 @@ class Note(Base):
 
     def __repr__(self):
         return '<Note %r>' % (self.title)
-
-
-class NoteCategory(Base):
-    __tablename__ = 'note_category'
-
-    name = db.Column(db.String(128), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('auth_user.id'))
-
-    def __init__(self, name, user_id):
-        self.name = name
-        self.user_id = user_id
-
-    def __repr__(self):
-        return '<NoteCategory %r>' % (self.name)
