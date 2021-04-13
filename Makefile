@@ -11,4 +11,4 @@ env:
 	pip install virtualenv && virtualenv env
 
 install: env
-	env/bin/pip install flask flask-sqlalchemy flask-jwt pyresttest
+	env/bin/pip install -r requirements.txt
