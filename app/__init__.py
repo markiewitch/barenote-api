@@ -33,6 +33,7 @@ app.register_blueprint(mod_auth)
 from .mod_note import note_module
 app.register_blueprint(note_module)
 
+
 from .mod_category import category_module
 app.register_blueprint(category_module)
 

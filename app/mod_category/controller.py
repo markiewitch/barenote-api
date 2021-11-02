@@ -6,6 +6,7 @@ from app import db
 from app.mod_note import Note
 from .model import NoteCategory
 
+
 mod_category = Blueprint('category', __name__, url_prefix='/api')
 
 
