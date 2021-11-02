@@ -1,7 +1,7 @@
 from flask import Flask, jsonify
 from flask import request
 from flask_sqlalchemy import SQLAlchemy
-import config
+from . import config
 
 app = Flask(__name__)
 
@@ -27,13 +27,14 @@ def internal(error):
 
 
 # Register submodules
-from mod_auth.controller import mod_auth
+from .mod_auth.controller import mod_auth
 app.register_blueprint(mod_auth)
 
-from mod_note import note_module
+from .mod_note import note_module
 app.register_blueprint(note_module)
 
-from mod_category import category_module
+
+from .mod_category import category_module
 app.register_blueprint(category_module)
 
 # Create the database
