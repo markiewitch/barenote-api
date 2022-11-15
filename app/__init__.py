@@ -37,5 +37,6 @@ app.register_blueprint(note_module)
 from .mod_category import category_module
 app.register_blueprint(category_module)
 
-# Create the database
-db.create_all()
+with app.app_context():
+    # Create the database
+    db.create_all()
